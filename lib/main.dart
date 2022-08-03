@@ -1,6 +1,8 @@
 import 'package:finap_test/UI/authpages/login_view.dart';
+import 'package:finap_test/provider/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,12 +19,15 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp(
-          theme: ThemeData(
-            primarySwatch: Colors.red,
+        return ChangeNotifierProvider(
+          create: (context) => DataProvider(),
+          child: MaterialApp(
+            theme: ThemeData(
+              primarySwatch: Colors.red,
+            ),
+            home: const LoginScreen(),
+            debugShowCheckedModeBanner: false,
           ),
-          home: const LoginScreen(),
-          debugShowCheckedModeBanner: false,
         );
       },
     );

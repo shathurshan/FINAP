@@ -1,6 +1,11 @@
+import 'package:finap_test/DB/user_database.dart';
+import 'package:finap_test/UI/Dashbord/dashbord_view.dart';
 import 'package:finap_test/common/theme.dart';
+import 'package:finap_test/models/user.dart';
+import 'package:finap_test/provider/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -16,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordControler = TextEditingController();
   bool isLogin = true;
   bool isPassword = false;
+  List users = [];
 
   @override
   void dispose() {
@@ -31,14 +37,59 @@ class _LoginScreenState extends State<LoginScreen> {
       if (isLogin) {
         print("Login");
         print(_idControler.text);
-        print(_passwordControler.text);
+        print(_passwordControler.text.toString());
+        // DBHelper.getUserData('users').then(
+        //   (value) {
+        //     print('newvalues: ${value[0]['userId']}');
+        //     print('newvalues: ${value[0]['password']}');
+        //     if (value[0]['userId'] == _idControler.text &&
+        //         value[0]['password'] == _passwordControler) {
+        //       print("navigation");
+        //       Navigator.pushNamed(
+        //         context,
+        //         DashbordScreen.routeName,
+        //       );
+        //     }
+        //   },
+        // );
+
+        // FutureBuilder(
+        //   future: DBHelper.getUserData('users'),
+        //   builder: (BuildContext context,
+        //       AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
+        //     if (snapshot.connectionState == ConnectionState.waiting) {
+        //       return const Center(
+        //         child: CircularProgressIndicator(),
+        //       );
+        //     }
+        //     return Container();
+        //   },
+        // );
       } else if (!isLogin) {
         print("signup");
         print(_idControler.text);
         print(_emailControler.text);
         print(_passwordControler.text);
+        Provider.of<DataProvider>(
+          context,
+          listen: false,
+        ).addUser(
+          Users(
+            id: DateTime.now().toString(),
+            userId: _idControler.text.toString(),
+            email: _emailControler.text.toString(),
+            password: _passwordControler.text.toString(),
+          ),
+        );
       }
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    DBHelper.createTable();
   }
 
   @override
@@ -172,7 +223,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Text(
                             isLogin ? "Login" : "SignUp",
                             textAlign: TextAlign.center,
-                            style:  TextStyle(
+                            style: TextStyle(
                               color: Colors.white,
                               // fontFamily: manaropeSemiBold,
                               fontSize: ScreenUtil().setSp(16),
