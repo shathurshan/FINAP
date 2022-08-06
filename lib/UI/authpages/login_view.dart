@@ -3,6 +3,7 @@ import 'package:finap_test/UI/Dashbord/dashbord_view.dart';
 import 'package:finap_test/common/theme.dart';
 import 'package:finap_test/models/user.dart';
 import 'package:finap_test/provider/data_provider.dart';
+import 'package:finap_test/services/api_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -32,44 +33,25 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordControler.dispose();
   }
 
+  signIn() {
+    DBHelper.getUserData("users").then((value) {
+      print("all users $value");
+    });
+    DBHelper.loginUser(
+      _idControler.text.toString(),
+      _passwordControler.text.toString(),
+    );
+    Navigator.pushNamed(
+      context,
+      DashbordScreen.routeName,
+    );
+  }
+
   loginMethod() {
     if (_authFormKey.currentState!.validate()) {
       if (isLogin) {
-        print("Login");
-        print(_idControler.text);
-        print(_passwordControler.text.toString());
-        // DBHelper.getUserData('users').then(
-        //   (value) {
-        //     print('newvalues: ${value[0]['userId']}');
-        //     print('newvalues: ${value[0]['password']}');
-        //     if (value[0]['userId'] == _idControler.text &&
-        //         value[0]['password'] == _passwordControler) {
-        //       print("navigation");
-        //       Navigator.pushNamed(
-        //         context,
-        //         DashbordScreen.routeName,
-        //       );
-        //     }
-        //   },
-        // );
-
-        // FutureBuilder(
-        //   future: DBHelper.getUserData('users'),
-        //   builder: (BuildContext context,
-        //       AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
-        //     if (snapshot.connectionState == ConnectionState.waiting) {
-        //       return const Center(
-        //         child: CircularProgressIndicator(),
-        //       );
-        //     }
-        //     return Container();
-        //   },
-        // );
+        signIn();
       } else if (!isLogin) {
-        print("signup");
-        print(_idControler.text);
-        print(_emailControler.text);
-        print(_passwordControler.text);
         Provider.of<DataProvider>(
           context,
           listen: false,
@@ -81,6 +63,10 @@ class _LoginScreenState extends State<LoginScreen> {
             password: _passwordControler.text.toString(),
           ),
         );
+        Navigator.pushNamed(
+          context,
+          DashbordScreen.routeName,
+        );
       }
     }
   }
@@ -90,6 +76,8 @@ class _LoginScreenState extends State<LoginScreen> {
     // TODO: implement initState
     super.initState();
     DBHelper.createTable();
+    ApiManager().getNews();
+    ApiManager().searchNews();
   }
 
   @override

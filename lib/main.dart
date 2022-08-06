@@ -1,3 +1,4 @@
+import 'package:finap_test/UI/Dashbord/dashbord_view.dart';
 import 'package:finap_test/UI/authpages/login_view.dart';
 import 'package:finap_test/provider/data_provider.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,9 @@ class MyApp extends StatelessWidget {
             ),
             home: const LoginScreen(),
             debugShowCheckedModeBanner: false,
+            routes: {
+              DashbordScreen.routeName: (ctx) => const DashbordScreen(),
+            },
           ),
         );
       },
