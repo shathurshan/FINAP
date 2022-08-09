@@ -35,15 +35,7 @@ List<CategoryModel> getCategories() {
   );
   myCategories.add(categorieModel3);
 
-  // 5
-  CategoryModel categorieModel4 = CategoryModel(
-    imageUrl: "Science",
-    categoryName:
-        "https://images.unsplash.com/photo-1554475901-4538ddfbccc2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1504&q=80",
-  );
-  myCategories.add(categorieModel4);
-
-  //6
+  //5
   CategoryModel categorieModel5 = CategoryModel(
     categoryName: "Sports",
     imageUrl:
@@ -51,7 +43,7 @@ List<CategoryModel> getCategories() {
   );
   myCategories.add(categorieModel5);
 
-  //7
+  //6
   CategoryModel categorieModel7 = CategoryModel(
     categoryName: "Technology",
     imageUrl:
